@@ -1,9 +1,16 @@
-import { getImage } from './js/pixabay-api';
+import { getImage, resetPage, addPage } from './js/pixabay-api';
+import { addLoadStroke, removeLoadStroke } from './js/render-functions';
 import errorIcon from './img/error.svg';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-export const iziOption = {
+const box = document.querySelector('.gallery');
+const load = document.querySelector('.load');
+const addMoreButton = document.querySelector('.add-more-button');
+const form = document.querySelector('.form');
+const input = document.querySelector('.user-input');
+
+const iziOption = {
   messageColor: '#FAFAFB',
   messageSize: '16px',
   backgroundColor: '#EF4040',
@@ -14,27 +21,47 @@ export const iziOption = {
   closeOnClick: true,
 };
 
-document.querySelector('.form').addEventListener('submit', event => {
-  event.preventDefault(); 
+if (!form || !input || !box || !load || !addMoreButton) {
+  console.error('One or more required elements not found in DOM');
+} else {
+  let currentQuery = '';
 
-  const inputField = document.querySelector('.user-input');
-  const input = inputField.value.trim();
-  const box = document.querySelector('.gallery');
-
-  if (!input) {
-    iziToast.show({
-      ...iziOption,
-      message: 'Please enter the search query',
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const inputValue = input.value.trim();
+    if (!inputValue) {
+      iziToast.show({
+        ...iziOption,
+        message: 'Please enter the search query',
+      });
+      return;
+    }
+    currentQuery = inputValue; 
+    box.innerHTML = '';
+    resetPage();
+    addLoadStroke(load);
+    getImage(currentQuery).finally(() => {
+      removeLoadStroke(load);
     });
-    return;
-  }
-    
-  box.innerHTML =
-    '<p>Wait, the image is loaded</p><span class="loader"></span>';
-  
-  getImage(input).then(() => {
-
-    inputField.value = '';
   });
-});
+
+  addMoreButton.addEventListener('click', event => {
+    if (!currentQuery) {
+      iziToast.show({
+        ...iziOption,
+        message: 'No query to load more images. Please search again.',
+      });
+      return;
+    }
+    addPage();
+    addLoadStroke(load);
+    getImage(currentQuery).finally(() => {
+      removeLoadStroke(load);
+    });
+  });
+}
+
+
+
+
 
