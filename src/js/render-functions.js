@@ -19,38 +19,21 @@ const iziOption = {
 };
 
 export function addLoadStroke(daddyElement) {
-  if (daddyElement) {
-    daddyElement.insertAdjacentHTML(
-      'beforeend',
-      '<p class="loading-text">Wait, the image is loaded</p><span class="loader"></span>'
-    );
-  } else {
-    console.warn('daddyElement not found');
-  }
-
-  if (addMoreButton) {
-    addMoreButton.classList.add('hide');
-  } else {
-    console.warn('addMoreButton element not found');
-  }
+  daddyElement.insertAdjacentHTML(
+    'beforeend',
+    '<p class="loading-text">Wait, the image is loaded</p><span class="loader"></span>'
+  );
+  addMoreButton.classList.add('hide');
 }
 
 export function removeLoadStroke(daddyElement) {
-  if (daddyElement) {
-    const textElement = daddyElement.querySelector('.loading-text');
-    const loaderElement = daddyElement.querySelector('.loader');
+  const textElement = daddyElement.querySelector('.loading-text');
+  const loaderElement = daddyElement.querySelector('.loader');
 
-    if (textElement) textElement.remove();
-    if (loaderElement) loaderElement.remove();
-  } else {
-    console.warn('daddyElement not found');
-  }
+  if (textElement) textElement.remove();
+  if (loaderElement) loaderElement.remove();
 
-  if (addMoreButton) {
-    addMoreButton.classList.remove('hide');
-  } else {
-    console.warn('addMoreButton element not found');
-  }
+  addMoreButton.classList.remove('hide');
 }
 
 export function markup(data) {
@@ -66,7 +49,6 @@ export function markup(data) {
 
     return;
   }
-
   const markup = hits
     .map(
       image =>
@@ -87,21 +69,14 @@ export function markup(data) {
       </li>`
     )
     .join(' ');
-
   removeLoadStroke(load);
-
-  if (box) {
-    box.insertAdjacentHTML('beforeend', markup);
-  } else {
-    console.warn('Gallery box not found');
-  }
+  box.insertAdjacentHTML('beforeend', markup);
 
   const lightbox = new SimpleLightbox('.gallery a', {
     captionsData: 'alt',
     captionDelay: 250,
   });
-  
-  if (box.querySelector('.gallery__item')) {
-    lightbox.refresh();
-  }
+  lightbox.refresh();
 }
+
+
