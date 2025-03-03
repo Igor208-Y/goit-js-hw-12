@@ -139,6 +139,12 @@ form {
   }
 }
 
+.load {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .add-more-button {
   display: flex;
   justify-content: center;

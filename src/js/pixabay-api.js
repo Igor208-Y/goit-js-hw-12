@@ -19,7 +19,7 @@ const iziOption = {
   closeOnClick: true,
 };
 let page = 1;
-let perPage = 30;
+let perPage = 40;
 
 export function resetPage() {
   page = 1;
@@ -82,6 +82,7 @@ export async function getImage(input) {
     box.innerHTML = '';
     load.innerHTML = '';
     removeLoadStroke(load);
+     addMoreButton.classList.add('hide');
     iziToast.show({
       ...iziOption,
       message: 'Sorry, an error happened. Try again',
@@ -89,5 +90,9 @@ export async function getImage(input) {
     return;
   }
 }
+
+
+
+
 
 
