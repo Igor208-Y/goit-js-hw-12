@@ -11,6 +11,9 @@ const load = document.querySelector('.load');
 const addMoreButton = document.querySelector('.add-more-button');
 const form = document.querySelector('.form');
 const input = document.querySelector('.user-input');
+
+let searchQuery = ''; 
+
 const iziOption = {
   messageColor: '#FAFAFB',
   messageSize: '16px',
@@ -24,8 +27,8 @@ const iziOption = {
 
 form.addEventListener('submit', event => {
   event.preventDefault();
-  let inputValue = input.value.trim();
-  if (!inputValue) {
+  searchQuery = input.value.trim();
+  if (!searchQuery) {
     iziToast.show({
       ...iziOption,
       message: 'Please enter the search query',
@@ -35,17 +38,15 @@ form.addEventListener('submit', event => {
   box.innerHTML = '';
   resetPage();
   addLoadStroke(load);
-  getImage(inputValue);
-
-  input.value = '';
-  
+  getImage(searchQuery);
+  // input.value = '';
 });
 
 addMoreButton.addEventListener('click', event => {
-  let inputValue = input.value.trim();
+  if (!searchQuery) return;
   addPage();
   addLoadStroke(load);
-  getImage(inputValue);
+  getImage(searchQuery);
 });
 
 

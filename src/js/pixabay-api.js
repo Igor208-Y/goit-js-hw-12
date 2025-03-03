@@ -41,13 +41,13 @@ export async function getImage(input) {
   const API_KEY = '48927114-800727f947c08d044ecb8ca31';
   const query = encodeURIComponent(input);
 
-   if (page === 1) {
-     box.innerHTML = '';
-     }
-     
+  if (page === 1) {
+    box.innerHTML = '';
+  }
+
   const urlParams = new URLSearchParams({
     key: API_KEY,
-    q: query,
+    q: query, 
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: 'true',
@@ -59,22 +59,29 @@ export async function getImage(input) {
   try {
     const { data } = await axios.get(URL);
     markup(data);
+    
+    removeLoadStroke(load);
+
     if (data.totalHits < page * perPage) {
       endOfList(load);
       return;
     }
+    
     if (page >= 2) {
       const list = document.querySelector('.gallery__item');
-      const rect = list.getBoundingClientRect();
-      window.scrollBy({
-        top: rect.height * 2,
-        behavior: 'smooth',
-      });
+      if (list) {
+        const rect = list.getBoundingClientRect();
+        window.scrollBy({
+          top: rect.height * 2,
+          behavior: 'smooth',
+        });
+      }
     }
   } catch (error) {
     console.error(error);
     box.innerHTML = '';
     load.innerHTML = '';
+    removeLoadStroke(load);
     iziToast.show({
       ...iziOption,
       message: 'Sorry, an error happened. Try again',
@@ -82,4 +89,5 @@ export async function getImage(input) {
     return;
   }
 }
+
 
