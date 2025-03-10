@@ -1,7 +1,5 @@
-import { getImage } from './js/pixabay-api';
-import { resetPage } from './js/pixabay-api';
-import { addPage } from './js/pixabay-api';
-import { addLoadStroke } from './js/render-functions';
+import { getImage, resetPage, addPage } from './js/pixabay-api';
+import { addLoadStroke, removeLoadStroke } from './js/render-functions'; 
 import errorIcon from './img/error.svg';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
@@ -37,17 +35,20 @@ form.addEventListener('submit', event => {
   }
   box.innerHTML = '';
   resetPage();
+  removeLoadStroke(load);
   addLoadStroke(load);
+  addMoreButton.classList.remove('hide');
   getImage(searchQuery);
-  // input.value = '';
 });
 
-addMoreButton.addEventListener('click', event => {
+addMoreButton.addEventListener('click', () => {
   if (!searchQuery) return;
   addPage();
   addLoadStroke(load);
   getImage(searchQuery);
 });
+
+
 
 
 

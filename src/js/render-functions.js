@@ -7,6 +7,7 @@ import errorIcon from '../img/error.svg';
 const box = document.querySelector('.gallery');
 const load = document.querySelector('.load');
 const addMoreButton = document.querySelector('.add-more-button');
+
 const iziOption = {
   messageColor: '#FAFAFB',
   messageSize: '16px',
@@ -31,9 +32,9 @@ export function removeLoadStroke(daddyElement) {
   const loaderElement = daddyElement.querySelector('.loader');
 
   if (textElement) textElement.remove();
-  if (loaderElement) loaderElement.remove();
+  if (loaderElement) loaderElement.remove(); 
 
-  addMoreButton.classList.remove('hide');
+  addMoreButton.classList.remove('hide'); 
 }
 
 export function markup(data) {
@@ -42,13 +43,12 @@ export function markup(data) {
   if (hits.length === 0) {
     iziToast.show({
       ...iziOption,
-      message:
-        'Sorry, there are no images matching your search query. Please, try again!',
+      message: 'Sorry, there are no images matching your search query. Please, try again!',
     });
     box.innerHTML = '';
-
     return;
   }
+
   const markup = hits
     .map(
       image =>
@@ -58,7 +58,7 @@ export function markup(data) {
           <div class="grid">
             <p>Likes</p>
             <p>Views</p>
-            <p>Comment</p>
+            <p>Comments</p>
             <p>Downloads</p>
             <span>${image.likes}</span>
             <span>${image.views}</span>
@@ -68,7 +68,8 @@ export function markup(data) {
         </a>
       </li>`
     )
-    .join(' ');
+    .join('');
+
   removeLoadStroke(load);
   box.insertAdjacentHTML('beforeend', markup);
 
@@ -78,5 +79,6 @@ export function markup(data) {
   });
   lightbox.refresh();
 }
+
 
 
